@@ -163,7 +163,7 @@ class VisaAppointmentChecker:
 
 if __name__ == "__main__":
     # Read global parameters from config.json
-    with open('scr\static\config.json', 'r') as config_file:
+    with open('./src/static/config.json', 'r') as config_file:
         config = json.load(config_file)
 
     # Asign values from config
