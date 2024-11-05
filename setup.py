@@ -18,7 +18,7 @@ setup(
     ],
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
-    packages=find_packages(),
+    packages=find_packages(where='src'),
     install_requires = [
         'openpyxl>=3.1.2',
         'pandas>=2.2.3',
