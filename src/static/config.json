@@ -1,0 +1,7 @@
+{
+"global": {
+    "driver_path": "./inputs/msedgedriver.exe",
+    "user": "user",
+    "password": "password"
+    }
+}
