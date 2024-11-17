@@ -21,8 +21,6 @@ class VisaAppointmentChecker:
         self.months_to_extract = months_to_extract
         self.all_dates = []
         self.edge_options = Options()
-        # Uncomment the next line to run in headless mode
-        # self.edge_options.add_argument("--headless")
 
     def setup_driver(self):
         self.edge_options.add_argument("--headless")  # Run Edge in headless mode
@@ -38,7 +36,8 @@ class VisaAppointmentChecker:
         try:
             driver.get('https://ais.usvisa-info.com/es-co/niv/users/sign_in')
             WebDriverWait(driver, 60).until(lambda d: d.execute_script('return document.readyState') == 'complete')
-
+            print("La página se ha cargado completamente.")
+            
             # Intentar encontrar los campos y botones
             username_field = WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.ID, 'user_email')))
             password_field = driver.find_element(By.ID, 'user_password')
