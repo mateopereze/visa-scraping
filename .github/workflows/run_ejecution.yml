@@ -3,10 +3,10 @@ name: Run Scraper Every 30 Minutes
 on:
   push:
     branches:
-      - master  # Run workflow only on pushes to the master branch
+      - master
   schedule:
-    - cron: "*/30 * * * *"  # Run every 30 minutes
-  workflow_dispatch:  # Allow manual execution
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
 
 jobs:
   run-scraper:
@@ -21,29 +21,31 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: Install dependencies and set up WebDriver
+    - name: Install dependencies
       run: |
         python -m venv .venv
         source .venv/bin/activate
         pip install --upgrade pip
         pip install -e .
 
-        wget -q https://msedgedriver.azureedge.net/113.0.1774.50/edgedriver_linux64.zip
-        unzip -q edgedriver_linux64.zip -d ./webdriver
-        chmod +x ./webdriver/msedgedriver
-
     - name: Install Microsoft Edge
       run: |
         sudo apt update
         sudo apt install -y microsoft-edge-stable
 
-    - name: Debug installation
+    - name: Download and install matching Edge WebDriver
       run: |
-        echo "Checking Microsoft Edge..."
-        which microsoft-edge
-        microsoft-edge --version
-        echo "Checking WebDriver..."
-        ./webdriver/msedgedriver --version
+        echo "Getting Edge version..."
+        EDGE_VERSION=$(microsoft-edge --version | grep -oP '\d+\.\d+\.\d+')
+        echo "Edge version: $EDGE_VERSION"
+
+        echo "Downloading matching Edge WebDriver..."
+        wget -q "https://msedgedriver.azureedge.net/${EDGE_VERSION}/edgedriver_linux64.zip" -O edgedriver.zip
+        unzip -q edgedriver.zip -d ./webdriver
+        chmod +x ./webdriver/msedgedriver
+
+        echo "Adding WebDriver to PATH..."
+        export PATH=$PATH:$(pwd)/webdriver
 
     - name: Run scraper
       run: |
