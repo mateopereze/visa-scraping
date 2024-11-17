@@ -23,10 +23,6 @@ class VisaAppointmentChecker:
         self.edge_options = Options()
 
     def setup_driver(self):
-        self.edge_options.add_argument('--headless')  # Modo sin interfaz gráfica
-        self.edge_options.add_argument('--no-sandbox')  # Necesario en entornos CI
-        self.edge_options.add_argument('--disable-dev-shm-usage')  # Reduce problemas de memoria compartida
-        self.edge_options.add_argument('--disable-gpu')  # Asegura compatibilidad en headless mode
         self.edge_options.add_argument('--disable-blink-features=AutomationControlled')  # Evitar detección
         self.edge_options.add_argument('--disable-extensions')
         self.edge_options.add_experimental_option('useAutomationExtension', False)
@@ -36,7 +32,6 @@ class VisaAppointmentChecker:
         service = Service()
         driver = webdriver.Edge(service=service, options=self.edge_options)
         return driver
-
 
     def login(self, driver):
         try:
