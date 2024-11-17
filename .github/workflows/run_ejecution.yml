@@ -49,7 +49,7 @@ jobs:
     needs: run-scraper
     steps:
     - name: Create logs directory if it doesn't exist
-      run: mkdir -p ./logs  # Asegurarse de que el directorio ./logs exista
+      run: mkdir -p ./logs
 
     - name: Combine all logs
       run: |
@@ -59,4 +59,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: scraper-logs
-        path: ./logs/all_logs.txt  # Subir el archivo consolidado de logs
+        path: ./logs/all_logs.txt
