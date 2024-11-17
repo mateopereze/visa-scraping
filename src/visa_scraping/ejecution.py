@@ -191,7 +191,7 @@ if __name__ == "__main__":
     # # In local
     # username_visa = config['global']['user']
     # password_visa = config['global']['password']
-    # driver_path = config['global']['driver_path']
+    driver_path = config['global']['driver_path']
 
     # Create an instance of the class and run it
     checker = VisaAppointmentChecker(driver_path, username_visa, password_visa)
