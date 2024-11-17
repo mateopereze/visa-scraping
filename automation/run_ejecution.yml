@@ -1,0 +1,38 @@
+name: Run Scraper Every 30 Minutes
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"  # Ejecutar cada 30 minutos
+  workflow_dispatch: # Permite ejecutar manualmente
+
+jobs:
+  run-scraper:  
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'  # Cambiar según la versión de Python que uses
+
+    - name: Create and activate virtual environment
+      run: |
+        echo "Creating virtual environment..."
+        python -m venv .venv
+        echo "Activating virtual environment..."
+        source .venv/bin/activate
+        echo "Upgrading pip..."
+        pip install --upgrade pip
+        echo "Installing dependencies from setup.cfg or setup.py..."
+        pip install -e .
+        echo "Dependencies installed successfully."
+
+    - name: Run scraper
+      run: |
+        echo "Activating virtual environment..."
+        source .venv/bin/activate
+        echo "Running scraper script..."
+        python src/visa_scraping/ejecution.py
