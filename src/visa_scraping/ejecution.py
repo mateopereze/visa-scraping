@@ -163,6 +163,7 @@ class VisaAppointmentChecker:
         driver = self.setup_driver()
         print('pass 000')
         try:
+            print('using this user: ', username_visa)
             self.login(driver)
             print('pass 001')
             appointment_date = self.get_appointment_date(driver)
