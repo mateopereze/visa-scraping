@@ -37,7 +37,9 @@ jobs:
       run: chmod +x ./src/visa_scraping/static/inputs/msedgedriver
 
     - name: Run scraper
-      run: python src/visa_scraping/ejecution.py
+      run: |
+        source .venv/bin/activate
+        python src/visa_scraping/ejecution.py
       env:
         USERNAME: ${{ secrets.SCRAPER_USERNAME }}
         PASSWORD: ${{ secrets.SCRAPER_PASSWORD }}
