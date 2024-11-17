@@ -29,7 +29,7 @@ class VisaAppointmentChecker:
         self.edge_options.add_argument("--no-sandbox")  # Bypass OS security model (necessary in some CI environments)
         self.edge_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource issues
         
-        service = Service(self.driver_path)
+        service = Service()
         driver = webdriver.Edge(service=service, options=self.edge_options)
         return driver
 
@@ -191,7 +191,7 @@ if __name__ == "__main__":
     # # In local
     # username_visa = config['global']['user']
     # password_visa = config['global']['password']
-    driver_path = config['global']['driver_path']
+    # driver_path = config['global']['driver_path']
 
     # Create an instance of the class and run it
     checker = VisaAppointmentChecker(driver_path, username_visa, password_visa)
