@@ -33,17 +33,18 @@ class VisaAppointmentChecker:
         driver = webdriver.Edge(service=service, options=self.edge_options)
         return driver
 
+
     def login(self, driver):
         try:
             driver.get('https://ais.usvisa-info.com/es-co/niv/users/sign_in')
-            WebDriverWait(driver, 60).until(lambda d: d.execute_script('return document.readyState') == 'complete')
+            WebDriverWait(driver, 120).until(lambda d: d.execute_script('return document.readyState') == 'complete')
             print("La página se ha cargado completamente.")
 
-            # Intentar encontrar los campos y botones
-            username_field = WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.ID, 'user_email')))
-            password_field = driver.find_element(By.ID, 'user_password')
-            checkbox = driver.find_element(By.XPATH, '//*[@id="sign_in_form"]/div[3]/label/div')
-            login_button = driver.find_element(By.XPATH, '//*[@id="sign_in_form"]/p[1]/input')
+            # Intentar encontrar los campos y botones con visibilidad asegurada
+            username_field = WebDriverWait(driver, 120).until(EC.visibility_of_element_located((By.ID, 'user_email')))
+            password_field = WebDriverWait(driver, 120).until(EC.visibility_of_element_located((By.ID, 'user_password')))
+            checkbox = WebDriverWait(driver, 120).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="sign_in_form"]/div[3]/label/div')))
+            login_button = WebDriverWait(driver, 120).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="sign_in_form"]/p[1]/input')))
             print("Identificados elementos para el logeo.")
 
             # Llenar los campos y hacer clic en los elementos
@@ -52,8 +53,12 @@ class VisaAppointmentChecker:
             checkbox.click()
             login_button.click()
 
+            # Esperar por un momento para asegurar que la siguiente página cargue (si es necesario)
+            time.sleep(3)  # Pausa para verificar si la siguiente página se carga correctamente
+
         except TimeoutException as e:
             print("TimeoutException: El tiempo de espera para cargar la página o los elementos ha expirado.")
+            print(f"Página fuente cuando ocurrió el error: {driver.page_source}")
             print(str(e))
 
         except NoSuchElementException as e:
@@ -67,7 +72,6 @@ class VisaAppointmentChecker:
         except Exception as e:
             print("Error inesperado durante el login.")
             print(str(e))
-
 
     def get_appointment_date(self, driver):
         continue_button = WebDriverWait(driver, 60).until(
