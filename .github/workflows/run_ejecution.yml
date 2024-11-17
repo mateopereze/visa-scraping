@@ -36,11 +36,16 @@ jobs:
     - name: Download and install matching Edge WebDriver
       run: |
         echo "Getting Edge version..."
-        EDGE_VERSION=$(microsoft-edge --version | grep -oP '\d+\.\d+\.\d+')
-        echo "Edge version: $EDGE_VERSION"
+        FULL_EDGE_VERSION=$(microsoft-edge --version | grep -oP '\d+\.\d+\.\d+\.\d+')
+        if [ -z "$FULL_EDGE_VERSION" ]; then
+          echo "Fetching precise version using LATEST_RELEASE..."
+          BASE_VERSION=$(microsoft-edge --version | grep -oP '\d+\.\d+\.\d+')
+          FULL_EDGE_VERSION=$(curl -s https://msedgedriver.azureedge.net/LATEST_RELEASE_$BASE_VERSION)
+        fi
+        echo "Edge version: $FULL_EDGE_VERSION"
 
         echo "Downloading matching Edge WebDriver..."
-        wget -q "https://msedgedriver.azureedge.net/${EDGE_VERSION}/edgedriver_linux64.zip" -O edgedriver.zip
+        wget -q "https://msedgedriver.azureedge.net/${FULL_EDGE_VERSION}/edgedriver_linux64.zip" -O edgedriver.zip
         unzip -q edgedriver.zip -d ./webdriver
         chmod +x ./webdriver/msedgedriver
 
