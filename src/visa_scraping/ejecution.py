@@ -147,8 +147,14 @@ class VisaAppointmentChecker:
                 'available_date': [filtered_date]
             })
 
-            filename = execution_time.strftime("%Y%m%d_%H%M%S") + "_execution_log.csv"
-            df_log.to_csv(f'./outputs/{filename}', index=False)
+            # filename = execution_time.strftime("%Y%m%d_%H%M%S") + "_execution_log.csv"
+            # df_log.to_csv(f'./outputs/{filename}', index=False)
+            row = df_log.iloc[0]
+
+            # Print each value
+            print(f"Execution Time: {row['execution_time']}")
+            print(f"Appointment Date: {row['appointment_date']}")
+            print(f"Available Date: {row['available_date']}")
             print(f"Log saved to {filename}")
         else:
             print("No earlier appointment available.")
@@ -156,17 +162,15 @@ class VisaAppointmentChecker:
     def run(self):
         driver = self.setup_driver()
         try:
-            logging.info("Starting Visa Appointment Check")
             self.login(driver)
             appointment_date = self.get_appointment_date(driver)
             self.reschedule(driver)
             self.extract_dates(driver)
             self.log_results(appointment_date)
         except Exception as e:
-            logging.error(f"An error occurred: {e}")
+            print(f"An error occurred: {e}")
         finally:
             driver.quit()
-            logging.info("WebDriver session closed.")
 
 
 if __name__ == "__main__":
