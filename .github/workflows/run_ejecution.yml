@@ -2,8 +2,8 @@ name: Run Scraper Every 30 Minutes
 
 on:
   schedule:
-    - cron: "*/30 * * * *"  # Execute every 30 minutes
-  workflow_dispatch: # Allow manual triggering
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
 
 jobs:
   run-scraper:
@@ -20,38 +20,31 @@ jobs:
 
     - name: Install dependencies and set up WebDriver
       run: |
-        # Create and activate the virtual environment
-        echo "Creating virtual environment..."
         python -m venv .venv
-        echo "Activating virtual environment..."
         source .venv/bin/activate
-        echo "Upgrading pip..."
         pip install --upgrade pip
-        echo "Installing dependencies..."
         pip install -e .
 
-        # Download and set up Edge WebDriver
-        echo "Downloading Edge WebDriver for Linux..."
         wget -q https://msedgedriver.azureedge.net/113.0.1774.50/edgedriver_linux64.zip
         unzip -q edgedriver_linux64.zip -d ./webdriver
         chmod +x ./webdriver/msedgedriver
-        echo "Adding WebDriver to PATH..."
-        export PATH=$PATH:$(pwd)/webdriver
-        
-        echo "Setup complete."
 
-    - name: Debug WebDriver setup
+    - name: Install Microsoft Edge
       run: |
-        echo "Listing WebDriver directory..."
-        ls -l ./webdriver
-        echo "Verifying msedgedriver binary..."
-        file ./webdriver/msedgedriver
+        sudo apt update
+        sudo apt install -y microsoft-edge-stable
+
+    - name: Debug installation
+      run: |
+        echo "Checking Microsoft Edge..."
+        which microsoft-edge
+        microsoft-edge --version
+        echo "Checking WebDriver..."
+        ./webdriver/msedgedriver --version
 
     - name: Run scraper
       run: |
-        echo "Activating virtual environment..."
         source .venv/bin/activate
-        echo "Running scraper script..."
         python src/visa_scraping/ejecution.py
       env:
         USERNAME: ${{ secrets.SCRAPER_USERNAME }}
