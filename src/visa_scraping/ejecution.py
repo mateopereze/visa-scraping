@@ -37,18 +37,14 @@ class VisaAppointmentChecker:
     def login(self, driver):
         try:
             driver.get('https://ais.usvisa-info.com/es-co/niv/users/sign_in')
-            WebDriverWait(driver, 60).until(lambda d: d.execute_script('return document.readyState') == 'complete')
+            WebDriverWait(driver, 180).until(lambda d: d.execute_script('return document.readyState') == 'complete')
             print("La página se ha cargado completamente.")
 
-            # Obtener el HTML de la página
-            page_html = driver.page_source
-            print(page_html)  # Mostrar el HTML de la página en consola
-    
             # Intentar encontrar los campos y botones con visibilidad asegurada
-            username_field = WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.ID, 'user_email')))
-            password_field = WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.ID, 'user_password')))
-            checkbox = WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="sign_in_form"]/div[3]/label/div')))
-            login_button = WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="sign_in_form"]/p[1]/input')))
+            username_field = WebDriverWait(driver, 180).until(EC.visibility_of_element_located((By.ID, 'user_email')))
+            password_field = WebDriverWait(driver, 180).until(EC.visibility_of_element_located((By.ID, 'user_password')))
+            checkbox = WebDriverWait(driver, 180).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="sign_in_form"]/div[3]/label/div')))
+            login_button = WebDriverWait(driver, 180).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="sign_in_form"]/p[1]/input')))
             print("Identificados elementos para el logeo.")
 
             # Llenar los campos y hacer clic en los elementos
