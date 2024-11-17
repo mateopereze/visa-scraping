@@ -156,15 +156,17 @@ class VisaAppointmentChecker:
     def run(self):
         driver = self.setup_driver()
         try:
+            logging.info("Starting Visa Appointment Check")
             self.login(driver)
             appointment_date = self.get_appointment_date(driver)
             self.reschedule(driver)
             self.extract_dates(driver)
             self.log_results(appointment_date)
         except Exception as e:
-            print(f"An error occurred: {e}")
+            logging.error(f"An error occurred: {e}")
         finally:
             driver.quit()
+            logging.info("WebDriver session closed.")
 
 
 if __name__ == "__main__":
