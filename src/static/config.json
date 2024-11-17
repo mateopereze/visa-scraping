@@ -1,7 +1,0 @@
-{
-"global": {
-    "driver_path": "./src/static/inputs/msedgedriver.exe",
-    "user": "user",
-    "password": "password"
-    }
-}

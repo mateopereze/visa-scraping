@@ -1,3 +1,4 @@
+from glob import glob
 from setuptools import setup, find_packages
 from os.path import splitext, basename
 import versioneer
@@ -7,9 +8,10 @@ setup(
     author = 'mateopereze',
     author_email = 'mateo.pereze4@gmail.com',
     description = 'Este proyecto se centra en la recolección automatizada de información a través de técnicas de web scraping.',
-    license = '...',
     url = 'https://github.com/mateopereze/visa_scraping',
-    package_dir={'': 'src'},
+    license = '...',
+    package_dir = {'': 'src'},
+    py_modules = [splitext(basename(path))[0] for path in glob('src/*.py')],
     python_requires = '>=3.11',
     classifiers = [
         'Programming Language :: Python :: 3',
