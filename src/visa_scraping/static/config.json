@@ -1,6 +1,6 @@
 {
 "global": {
-    "driver_path": "./src/visa_scraping/static/inputs/msedgedriver.exe",
+    "driver_path": "./src/visa_scraping/static/inputs/msedgedriver",
     "user": "",
     "password": ""
     }
