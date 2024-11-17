@@ -23,10 +23,11 @@ class VisaAppointmentChecker:
         self.edge_options = Options()
 
     def setup_driver(self):
-        # self.edge_options.add_argument("--headless")  # Run Edge in headless mode
+        self.edge_options.add_argument("--headless")  # Run Edge in headless mode
         self.edge_options.add_argument("--disable-gpu")  # Disable GPU (optional but recommended)
-        # self.edge_options.add_argument("--no-sandbox")  # Bypass OS security model (necessary in some CI environments)
-        # self.edge_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource issues
+        self.edge_options.add_argument("--no-sandbox")  # Bypass OS security model
+        self.edge_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource issues
+        self.edge_options.add_argument("--remote-debugging-port=0")  # Soluciona el error de DevToolsActivePort
         
         service = Service()
         driver = webdriver.Edge(service=service, options=self.edge_options)
