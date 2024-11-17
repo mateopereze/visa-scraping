@@ -211,8 +211,8 @@ if __name__ == "__main__":
 
     # Asign values from config
     # # Using GitHub secrets and variables
-    username_visa = os.getenv("USERNAME")
-    password_visa = os.getenv("PASSWORD")
+    username_visa = os.getenv("SCRAPER_USERNAME")
+    password_visa = os.getenv("SCRAPER_PASSWORD")
     # # In local
     # username_visa = config['global']['user']
     # password_visa = config['global']['password']
