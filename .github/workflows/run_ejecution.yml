@@ -1,9 +1,12 @@
 name: Run Scraper Every 30 Minutes
 
 on:
+  push:
+    branches:
+      - master  # Run workflow only on pushes to the master branch
   schedule:
-    - cron: "*/30 * * * *"
-  workflow_dispatch:
+    - cron: "*/30 * * * *"  # Run every 30 minutes
+  workflow_dispatch:  # Allow manual execution
 
 jobs:
   run-scraper:
