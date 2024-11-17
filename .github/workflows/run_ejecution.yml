@@ -43,3 +43,17 @@ jobs:
       env:
         USERNAME: ${{ secrets.SCRAPER_USERNAME }}
         PASSWORD: ${{ secrets.SCRAPER_PASSWORD }}
+
+  upload-logs:
+    runs-on: ubuntu-latest
+    needs: run-scraper
+    steps:
+    - name: Combine all logs
+      run: |
+        cat ./logs/logs.txt >> ./logs/all_logs.txt  # Combinar logs actuales con los anteriores
+
+    - name: Upload consolidated logs as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: scraper-logs
+        path: ./logs/all_logs.txt  # Subir el archivo consolidado de logs
