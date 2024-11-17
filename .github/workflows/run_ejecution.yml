@@ -28,10 +28,18 @@ jobs:
         pip install --upgrade pip
         pip install -e .
 
-    - name: Install Microsoft Edge
+    - name: Remove existing Microsoft Edge
       run: |
-        sudo apt update
-        sudo apt install -y microsoft-edge-stable
+        sudo apt remove -y microsoft-edge-stable
+        sudo apt autoremove -y
+
+    - name: Install specific version of Microsoft Edge
+      run: |
+        wget https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/2aa473eb-b4cf-4c4e-9939-8e02ac58f287/microsoft-edge-stable_130.0.2849.78-1_amd64.deb
+        sudo dpkg -i microsoft-edge-stable_130.0.2849.78-1_amd64.deb
+
+    - name: Verify Microsoft Edge version
+      run: microsoft-edge --version
 
     - name: Set execute permission on msedgedriver
       run: chmod +x ./src/visa_scraping/static/inputs/msedgedriver
