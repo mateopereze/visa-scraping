@@ -1,10 +1,10 @@
 @echo off
-cd /d %~dp0
+@REM cd /d %~dp0
 
 echo Activating virtual environment...
 call .venv\Scripts\activate
 
 echo Virtual environment activated. Running script...
-python src\ejecution.py
+python src\visa_scraping\ejecution.py
 
 pause
