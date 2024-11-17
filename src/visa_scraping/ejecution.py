@@ -23,10 +23,10 @@ class VisaAppointmentChecker:
         self.edge_options = Options()
 
     def setup_driver(self):
-        self.edge_options.add_argument("--headless")  # Run Edge in headless mode
-        self.edge_options.add_argument("--disable-gpu")  # Disable GPU (optional but recommended)
-        self.edge_options.add_argument("--no-sandbox")  # Bypass OS security model (necessary in some CI environments)
-        self.edge_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource issues
+        # self.edge_options.add_argument("--headless")  # Run Edge in headless mode
+        # self.edge_options.add_argument("--disable-gpu")  # Disable GPU (optional but recommended)
+        # self.edge_options.add_argument("--no-sandbox")  # Bypass OS security model (necessary in some CI environments)
+        # self.edge_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource issues
         
         service = Service()
         driver = webdriver.Edge(service=service, options=self.edge_options)
@@ -37,12 +37,13 @@ class VisaAppointmentChecker:
             driver.get('https://ais.usvisa-info.com/es-co/niv/users/sign_in')
             WebDriverWait(driver, 60).until(lambda d: d.execute_script('return document.readyState') == 'complete')
             print("La página se ha cargado completamente.")
-            
+
             # Intentar encontrar los campos y botones
             username_field = WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.ID, 'user_email')))
             password_field = driver.find_element(By.ID, 'user_password')
             checkbox = driver.find_element(By.XPATH, '//*[@id="sign_in_form"]/div[3]/label/div')
             login_button = driver.find_element(By.XPATH, '//*[@id="sign_in_form"]/p[1]/input')
+            print("Identificados elementos para el logeo.")
 
             # Llenar los campos y hacer clic en los elementos
             username_field.send_keys(self.username)
