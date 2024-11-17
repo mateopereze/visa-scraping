@@ -28,6 +28,14 @@ jobs:
         pip install --upgrade pip
         echo "Installing dependencies from setup.cfg or setup.py..."
         pip install -e .
+
+        # Descargar e instalar Edge WebDriver para Linux
+        echo "Downloading Edge WebDriver for Linux..."
+        wget -q https://msedgedriver.azureedge.net/113.0.1774.50/edgedriver_linux64.zip
+        unzip -q edgedriver_linux64.zip -d ./webdriver
+        chmod +x ./webdriver/msedgedriver
+        export PATH=$PATH:$(pwd)/webdriver
+        
         echo "Dependencies installed successfully."
 
     - name: Run scraper
