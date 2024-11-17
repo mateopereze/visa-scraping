@@ -48,6 +48,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: run-scraper
     steps:
+    - name: Create logs directory if it doesn't exist
+      run: mkdir -p ./logs  # Asegurarse de que el directorio ./logs exista
+
     - name: Combine all logs
       run: |
         cat ./logs/logs.txt >> ./logs/all_logs.txt  # Combinar logs actuales con los anteriores
