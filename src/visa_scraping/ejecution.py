@@ -168,9 +168,9 @@ class VisaAppointmentChecker:
 
 
 if __name__ == "__main__":
-    # # Read global parameters from config.json
-    # with open('./src/visa_scraping/static/config.json', 'r') as config_file:
-    #     config = json.load(config_file)
+    # Read global parameters from config.json
+    with open('./src/visa_scraping/static/config.json', 'r') as config_file:
+        config = json.load(config_file)
 
     # Asign values from config
     # # Using GitHub secrets and variables
@@ -179,7 +179,7 @@ if __name__ == "__main__":
     # # In local
     # username_visa = config['global']['user']
     # password_visa = config['global']['password']
-    driver_path = './webdriver/msedgedriver'
+    driver_path = config['global']['driver_path']
 
     # Create an instance of the class and run it
     checker = VisaAppointmentChecker(driver_path, username_visa, password_visa)
