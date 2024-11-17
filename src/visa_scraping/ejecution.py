@@ -10,6 +10,7 @@ from selenium.webdriver.edge.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException, NoSuchElementException, WebDriverException
 from bs4 import BeautifulSoup
 
 class VisaAppointmentChecker:
@@ -34,18 +35,38 @@ class VisaAppointmentChecker:
         return driver
 
     def login(self, driver):
-        driver.get('https://ais.usvisa-info.com/es-co/niv/users/sign_in')
-        WebDriverWait(driver, 10).until(lambda d: d.execute_script('return document.readyState') == 'complete')
+        try:
+            driver.get('https://ais.usvisa-info.com/es-co/niv/users/sign_in')
+            WebDriverWait(driver, 10).until(lambda d: d.execute_script('return document.readyState') == 'complete')
 
-        username_field = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'user_email')))
-        password_field = driver.find_element(By.ID, 'user_password')
-        checkbox = driver.find_element(By.XPATH, '//*[@id="sign_in_form"]/div[3]/label/div')
-        login_button = driver.find_element(By.XPATH, '//*[@id="sign_in_form"]/p[1]/input')
+            # Intentar encontrar los campos y botones
+            username_field = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'user_email')))
+            password_field = driver.find_element(By.ID, 'user_password')
+            checkbox = driver.find_element(By.XPATH, '//*[@id="sign_in_form"]/div[3]/label/div')
+            login_button = driver.find_element(By.XPATH, '//*[@id="sign_in_form"]/p[1]/input')
 
-        username_field.send_keys(self.username)
-        password_field.send_keys(self.password)
-        checkbox.click()
-        login_button.click()
+            # Llenar los campos y hacer clic en los elementos
+            username_field.send_keys(self.username)
+            password_field.send_keys(self.password)
+            checkbox.click()
+            login_button.click()
+
+        except TimeoutException as e:
+            print("TimeoutException: El tiempo de espera para cargar la página o los elementos ha expirado.")
+            print(str(e))
+
+        except NoSuchElementException as e:
+            print("NoSuchElementException: No se ha encontrado uno de los elementos en la página.")
+            print(str(e))
+
+        except WebDriverException as e:
+            print("WebDriverException: Ocurrió un error con el WebDriver.")
+            print(str(e))
+
+        except Exception as e:
+            print("Error inesperado durante el login.")
+            print(str(e))
+
 
     def get_appointment_date(self, driver):
         continue_button = WebDriverWait(driver, 10).until(
@@ -163,7 +184,6 @@ class VisaAppointmentChecker:
         driver = self.setup_driver()
         print('pass 000')
         try:
-            print('using this user: ', username_visa)
             self.login(driver)
             print('pass 001')
             appointment_date = self.get_appointment_date(driver)
