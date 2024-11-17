@@ -37,10 +37,10 @@ class VisaAppointmentChecker:
     def login(self, driver):
         try:
             driver.get('https://ais.usvisa-info.com/es-co/niv/users/sign_in')
-            WebDriverWait(driver, 10).until(lambda d: d.execute_script('return document.readyState') == 'complete')
+            WebDriverWait(driver, 30).until(lambda d: d.execute_script('return document.readyState') == 'complete')
 
             # Intentar encontrar los campos y botones
-            username_field = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'user_email')))
+            username_field = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, 'user_email')))
             password_field = driver.find_element(By.ID, 'user_password')
             checkbox = driver.find_element(By.XPATH, '//*[@id="sign_in_form"]/div[3]/label/div')
             login_button = driver.find_element(By.XPATH, '//*[@id="sign_in_form"]/p[1]/input')
@@ -69,7 +69,7 @@ class VisaAppointmentChecker:
 
 
     def get_appointment_date(self, driver):
-        continue_button = WebDriverWait(driver, 10).until(
+        continue_button = WebDriverWait(driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, '//*[@id="main"]/div[2]/div[2]/div[1]/div/div/div[1]/div[2]/ul/li/a'))
         )
         appointment_text = driver.find_element(By.CLASS_NAME, 'consular-appt').text
@@ -106,17 +106,17 @@ class VisaAppointmentChecker:
             raise ValueError("Could not extract appointment date.")
 
     def reschedule(self, driver):
-        reschedule_button = WebDriverWait(driver, 10).until(
+        reschedule_button = WebDriverWait(driver, 30).until(
             EC.element_to_be_clickable((By.CLASS_NAME, 'fa-calendar-minus'))
         )
         reschedule_button.click()
 
-        reschedule_confirm_button = WebDriverWait(driver, 10).until(
+        reschedule_confirm_button = WebDriverWait(driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, '//a[@class="button small primary small-only-expanded" and text()="Reprogramar cita"]'))
         )
         reschedule_confirm_button.click()
 
-        calendary_button = WebDriverWait(driver, 10).until(
+        calendary_button = WebDriverWait(driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, '//*[@id="appointments_consulate_appointment_date"]'))
         )
         calendary_button.click()
