@@ -31,6 +31,7 @@ class VisaAppointmentChecker:
         self.edge_options.add_argument('--disable-extensions')
         self.edge_options.add_experimental_option('useAutomationExtension', False)
         self.edge_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        self.edge_options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36")
         
         service = Service()
         driver = webdriver.Edge(service=service, options=self.edge_options)
