@@ -161,11 +161,16 @@ class VisaAppointmentChecker:
 
     def run(self):
         driver = self.setup_driver()
+        print('pass 000')
         try:
             self.login(driver)
+            print('pass 001')
             appointment_date = self.get_appointment_date(driver)
+            print('pass 002')
             self.reschedule(driver)
+            print('pass 003')
             self.extract_dates(driver)
+            print('pass 004')
             self.log_results(appointment_date)
         except Exception as e:
             print(f"An error occurred: {e}")
