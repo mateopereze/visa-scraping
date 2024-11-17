@@ -29,7 +29,7 @@ class VisaAppointmentChecker:
         # self.edge_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource issues
         
         service = Service()
-        driver = webdriver.Edge(service=service) #, options=self.edge_options)
+        driver = webdriver.Edge(service=service, options=self.edge_options)
         return driver
 
     def login(self, driver):
