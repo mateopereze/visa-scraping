@@ -1,11 +1,11 @@
-name: Run Scraper Every 30 Minutes
+name: Run Scraper Every 90 Minutes
 
 on:
   push:
     branches:
       - master
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "*/90 * * * *"
   workflow_dispatch:
 
 jobs:
