@@ -272,5 +272,5 @@ if __name__ == "__main__":
     driver_path = config['global']['driver_path']
 
     # Create an instance of the class and run it
-    checker = VisaAppointmentChecker(driver_path, username_visa, password_visa, user_email, password_email)
+    checker = VisaAppointmentChecker(driver_path, username_visa, password_visa, sender_email, password_email, recipient_email)
     checker.run()
