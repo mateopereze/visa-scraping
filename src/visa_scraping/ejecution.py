@@ -14,10 +14,13 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException,
 from bs4 import BeautifulSoup
 
 class VisaAppointmentChecker:
-    def __init__(self, driver_path, username, password, months_to_extract=30):
+    def __init__(self, driver_path, username, password,  sender_email, password_email, recipient_email, months_to_extract=30):
         self.driver_path = driver_path
         self.username = username
         self.password = password
+        self.sender_email = sender_email
+        self.password_email = password_email
+        self.recipient_email = recipient_email
         self.months_to_extract = months_to_extract
         self.all_dates = []
         self.edge_options = Options()
@@ -176,30 +179,71 @@ class VisaAppointmentChecker:
                 'available_date': [filtered_date]
             })
 
-            # filename = execution_time.strftime("%Y%m%d_%H%M%S") + "_execution_log.csv"
-            # df_log.to_csv(f'./outputs/{filename}', index=False)
-            row = df_log.iloc[0]
+            log_file_path = './outputs/execution_log.csv'
+            # Check if log file exists
+            if not os.path.exists(log_file_path):
+                # Create a new log file with headers
+                pd.DataFrame([new_log_entry]).to_csv(log_file_path, index=False)
+                print(f"Log file created and saved at: {log_file_path}")
+            else:
+                # Append the new entry to the existing log file
+                pd.DataFrame([new_log_entry]).to_csv(log_file_path, mode='a', header=False, index=False)
+                print(f"New log entry appended to: {log_file_path}")
 
-            # Print each value
-            print(f"Execution Time: {row['execution_time']}")
-            print(f"Appointment Date: {row['appointment_date']}")
-            print(f"Available Date: {row['available_date']}")
-            print(f"Log saved to {filename}")
+            # Print the details of the logged entry
+            print(f"Execution Time: {new_log_entry['execution_time']}")
+            print(f"Appointment Date: {new_log_entry['appointment_date']}")
+            print(f"Available Date: {new_log_entry['available_date']}")
+
+            # Send an email notification
+            if recipient_email:
+                send_email_notification(
+                    execution_time,
+                    appointment_date,
+                    filtered_date
+                )
+
         else:
             print("No earlier appointment available.")
 
+    def send_email_notification(execution_time, appointment_date, available_date):
+        smtp_server = "smtp.gmail.com"
+        smtp_port = 587
+
+        # Create the email content
+        subject = "New Appointment Available"
+        body = (
+            f"Hello,\n\n"
+            f"A new earlier appointment is available:\n\n"
+            f"Execution Time: {execution_time}\n"
+            f"Current Appointment Date: {appointment_date}\n"
+            f"Available Appointment Date: {available_date}\n\n"
+            f"Please log in to your account to book this appointment."
+        )
+
+        msg = MIMEMultipart()
+        msg['From'] = self.sender_email
+        msg['To'] = self.recipient_email
+        msg['Subject'] = subject
+        msg.attach(MIMEText(body, 'plain'))
+
+        # Send the email
+        try:
+            with smtplib.SMTP(smtp_server, smtp_port) as server:
+                server.starttls()  # Secure the connection
+                server.login(sender_email, sender_password)
+                server.send_message(msg)
+            print(f"Email sent to {recipient_email}")
+        except Exception as e:
+            print(f"Failed to send email: {e}")
+
     def run(self):
         driver = self.setup_driver()
-        print('pass 000')
         try:
             self.login(driver)
-            print('pass 001')
             appointment_date = self.get_appointment_date(driver)
-            print('pass 002')
             self.reschedule(driver)
-            print('pass 003')
             self.extract_dates(driver)
-            print('pass 004')
             self.log_results(appointment_date)
         except Exception as e:
             print(f"An error occurred: {e}")
@@ -216,11 +260,17 @@ if __name__ == "__main__":
     # # Using GitHub secrets and variables
     username_visa = os.getenv("USERNAME")
     password_visa = os.getenv("PASSWORD")
+
+    sender_email = os.getenv("SENDER_EMAIL")
+    password_email = os.getenv("PASSWORD_EMAIL")
+
+    recipient_email = os.getenv("RECIPIENT_EMAIL")
+
     # # In local
     # username_visa = config['global']['user']
     # password_visa = config['global']['password']
     driver_path = config['global']['driver_path']
 
     # Create an instance of the class and run it
-    checker = VisaAppointmentChecker(driver_path, username_visa, password_visa)
+    checker = VisaAppointmentChecker(driver_path, username_visa, password_visa, user_email, password_email)
     checker.run()
