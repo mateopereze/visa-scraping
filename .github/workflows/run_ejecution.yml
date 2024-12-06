@@ -43,25 +43,6 @@ jobs:
       env:
         USERNAME: ${{ secrets.SCRAPER_USERNAME }}
         PASSWORD: ${{ secrets.SCRAPER_PASSWORD }}
-
-  upload-logs:
-    runs-on: ubuntu-latest
-    needs: run-scraper
-    steps:
-      - name: Create logs directory if it doesn't exist
-        run: mkdir -p ./logs
-
-      - name: Combine all logs if the logs file exists
-        run: |
-          if [ -f ./logs/logs.txt ]; then
-            cat ./logs/logs.txt >> ./logs/all_logs.txt
-          fi
-
-      - name: Ensure all_logs.txt exists
-        run: touch ./logs/all_logs.txt
-
-      - name: Upload consolidated logs as artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: scraper-logs
-          path: ./logs/all_logs.txt
+        SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+        PASSWORD_EMAIL: ${{ secrets.PASSWORD_EMAIL }}
+        RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
