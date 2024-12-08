@@ -206,7 +206,7 @@ class VisaAppointmentChecker:
         else:
             print("No earlier appointment available.")
 
-    def send_email_notification(execution_time, appointment_date, available_date):
+    def send_email_notification(self, execution_time, appointment_date, available_date):
         smtp_server = "smtp.gmail.com"
         smtp_port = 587
 
