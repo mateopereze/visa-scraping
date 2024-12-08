@@ -196,8 +196,8 @@ class VisaAppointmentChecker:
             print(f"Available Date: {filtered_date}")
 
             # Send an email notification
-            if recipient_email:
-                send_email_notification(
+            if self.recipient_email:
+                self.send_email_notification(
                     execution_time,
                     appointment_date,
                     filtered_date
