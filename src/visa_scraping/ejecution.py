@@ -193,7 +193,7 @@ class VisaAppointmentChecker:
             # Print the details of the logged entry
             print(f"Execution Time: {execution_time}")
             print(f"Appointment Date: {appointment_date}")
-            print(f"Available Date: {available_date}")
+            print(f"Available Date: {filtered_date}")
 
             # Send an email notification
             if recipient_email:
