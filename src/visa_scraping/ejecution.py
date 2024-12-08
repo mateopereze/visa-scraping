@@ -179,21 +179,21 @@ class VisaAppointmentChecker:
                 'available_date': [filtered_date]
             })
 
-            log_file_path = './outputs/execution_log.csv'
-            # Check if log file exists
-            if not os.path.exists(log_file_path):
-                # Create a new log file with headers
-                pd.DataFrame([new_log_entry]).to_csv(log_file_path, index=False)
-                print(f"Log file created and saved at: {log_file_path}")
-            else:
-                # Append the new entry to the existing log file
-                pd.DataFrame([new_log_entry]).to_csv(log_file_path, mode='a', header=False, index=False)
-                print(f"New log entry appended to: {log_file_path}")
+            # log_file_path = './outputs/execution_log.csv'
+            # # Check if log file exists
+            # if not os.path.exists(log_file_path):
+            #     # Create a new log file with headers
+            #     pd.DataFrame([new_log_entry]).to_csv(log_file_path, index=False)
+            #     print(f"Log file created and saved at: {log_file_path}")
+            # else:
+            #     # Append the new entry to the existing log file
+            #     pd.DataFrame([new_log_entry]).to_csv(log_file_path, mode='a', header=False, index=False)
+            #     print(f"New log entry appended to: {log_file_path}")
 
             # Print the details of the logged entry
-            print(f"Execution Time: {new_log_entry['execution_time']}")
-            print(f"Appointment Date: {new_log_entry['appointment_date']}")
-            print(f"Available Date: {new_log_entry['available_date']}")
+            print(f"Execution Time: {execution_time}")
+            print(f"Appointment Date: {appointment_date}")
+            print(f"Available Date: {available_date}")
 
             # Send an email notification
             if recipient_email:
