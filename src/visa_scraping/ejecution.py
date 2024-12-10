@@ -234,7 +234,7 @@ class VisaAppointmentChecker:
         try:
             with smtplib.SMTP(smtp_server, smtp_port) as server:
                 server.starttls()  # Secure the connection
-                server.login(sender_email, sender_password)
+                server.login(sender_email, password_email)
                 server.send_message(msg)
             print(f"Email sent to {recipient_email}")
         except Exception as e:
