@@ -12,6 +12,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException, WebDriverException
 from bs4 import BeautifulSoup
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 class VisaAppointmentChecker:
     def __init__(self, driver_path, username, password,  sender_email, password_email, recipient_email, months_to_extract=30):
