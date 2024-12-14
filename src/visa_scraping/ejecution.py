@@ -211,9 +211,9 @@ class VisaAppointmentChecker:
 
     def send_email_notification(self, execution_time, appointment_date, available_date):
         smtp_server = "smtp.gmail.com"
-        smtp_port = 587
+        smtp_port = 465
 
-        # Create the email content
+        # Create content
         subject = "New Appointment Available"
         body = (
             f"Hello,\n\n"
@@ -224,19 +224,19 @@ class VisaAppointmentChecker:
             f"Please log in to your account to book this appointment."
         )
 
+        # Create email
         msg = MIMEMultipart()
         msg['From'] = self.sender_email
         msg['To'] = self.recipient_email
         msg['Subject'] = subject
         msg.attach(MIMEText(body, 'plain'))
 
-        # Send the email
+        # Send email
         try:
-            with smtplib.SMTP(smtp_server, smtp_port) as server:
-                server.starttls()  # Secure the connection
-                server.login(sender_email, password_email)
+            with smtplib.SMTP_SSL(smtp_server, smtp_port) as server:
+                server.login(self.sender_email, self.password_email)
                 server.send_message(msg)
-            print(f"Email sent to {recipient_email}")
+            print(f"Email sent to {self.recipient_email}")
         except Exception as e:
             print(f"Failed to send email: {e}")
 
