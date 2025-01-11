@@ -1,38 +1,35 @@
 # visa-scraping
 
-Este proyecto se centra en la recolección automatizada de información a través de técnicas de web scraping. Su mayor importancia radica en la generación de alertas automáticas cuando se scrapea una página web, lo que permite a los usuarios ser más eficientes en el uso del tiempo y optimizar el proceso de monitoreo de datos.
-
+This project focuses on the automated collection of information through web scraping techniques. Its greatest importance lies in the generation of automatic alerts when a web page is scraped, allowing users to be more efficient in their use of time and optimize the data monitoring process.
 
 [[_TOC_]]
 
+## Installation
 
-## Instalación
+1. It is recommended to use Python 3.11. You can download it from the following link: https://www.python.org/downloads/
 
-1. Se recomienda utilizar Python 3.11. Puedes descargarlo desde el siguiente enlace: https://www.python.org/downloads/
+2. It is recommended to install in a [**virtual environment**]. Inside the project, you will find the ```PyEnv.bat``` executable, which creates a virtual environment in the project directory and installs everything necessary to run the flow specified in the ```setup.cfg``` file.
 
-2. Se recomienda realizar la instalación en un [**entorno virtual**]. Dentro del proyecto, encontrarás el ejecutable ```PyEnv.bat```, que crea un entorno virtual en el directorio del proyecto e instala todo lo necesario para ejecutar el flujo especificado en el archivo ```setup.cfg```.
+## Execution
 
+Before running the project, make sure to activate the virtual environment if you are using one.
 
-## Ejecución
-
-Antes de ejecutar el proyecto, asegúrate de activar el entorno virtual si estás utilizando uno.
-
-Para ejecutar el archivo principal **ejecution.py** o utiliza el siguiente comando:
+To run the main file **execution.py** use the following command:
 
 ```
-python -m visa_scraping.ejecution
+python -m visa_scraping.execution
 ```
 
-Nota: El proyecto incluye el ejecutable ```PyRun.bat```, que activa el entorno virtual y ejecuta automáticamente el flujo.
+Note: The project includes the executable ```PyRun.bat```, which activates the virtual environment and automatically runs the flow.
 
 
-## Prerrequisitos
+## Prerequisites
 
-El proyecto ha sido generado para la versión de Python
-	```
-    3.10
-    ```
-. Las librerías o paquetes necesarios para la ejecución son:
+The project has been generated for Python version
+```
+3.10
+```
+. The libraries or packages required for execution are:
 - `versioneer>=0.10`
 - `setuptools>=75.3.0`
 - `openpyxl>=3.1.2`
@@ -41,19 +38,23 @@ El proyecto ha sido generado para la versión de Python
 - `selenium>=4.25.0`
 
 
-## Insumos y resultados
+## Inputs and outputs
 
-Los insumos utilizados en el proceso son:
+The inputs used in the process are:
 
-| Insumo | Descripción|
+| Input | Description|
 | - | - |
-| driver_path | Ubicación del web driver dentro del proyecto, definida en el parámetro global driver_path del archivo ```config.json```. |
-| user | Nombre de usuario para acceder a la página, definido en el parámetro global user del archivo ```config.json```. |
-| password | Contraseña de acceso, definida en el parámetro global password del archivo ```config.json```. |
+| driver_path | Location of the web driver within the project, defined in the global driver_path parameter of the ```config.json``` file. |
+| user | Username to access the page, defined in the global user parameter of the ```config.json``` file. |
+| password | Access password, defined in the global password parameter of the ```config.json``` file. |
+| sender_email | Email from which the notification email will be sent, defined in the global sender_email parameter of the ```config.json``` file. |
+| password_email | Password of the email from which the notification email will be sent, defined in the global password_email parameter of the ```config.json``` file. |
+| recipient_email | Email to which the notification will be sent, defined in the global parameter recipient_email of the ```config.json``` file. |
 
+If executed on Github, the secrets can and should be modified.
 
-Los resultados obtenidos son:
+The results obtained are:
 
-| Resultado| Descripción|
+| Result| Description|
 | - | - |
-| execution_log.csv | Resultado almacenado en la carpeta ```outputs``` de la ejecución en caso de que se encuentre una fecha inferior a la fecha del evento |
+| execution_log.csv | Result stored in the ```outputs``` folder of the execution in case a date less than the event date is found |

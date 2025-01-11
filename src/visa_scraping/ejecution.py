@@ -272,6 +272,9 @@ if __name__ == "__main__":
     # # In local
     # username_visa = config['global']['user']
     # password_visa = config['global']['password']
+    # sender_email = config['global']['sender_email']
+    # password_email = config['global']['password_email']
+    # recipient_email = config['global']['recipient_email']
     driver_path = config['global']['driver_path']
 
     # Create an instance of the class and run it
